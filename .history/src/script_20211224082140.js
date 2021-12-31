@@ -68,7 +68,8 @@ const worldTexture = new THREE.TextureLoader().load( 'moon.jpg' );
 const world = new THREE.Mesh(
   new THREE.SphereGeometry(3, 32, 32),
   new THREE.MeshStandardMaterial({
-    map: worldTexture,
+    map: worldTexture
+    
   })
 );
 

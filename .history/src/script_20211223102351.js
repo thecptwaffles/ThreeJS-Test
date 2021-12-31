@@ -36,9 +36,6 @@ scene.add(lightHelper, gridHelper);
 
 const controls = new OrbitControls(camera, renderer.domElement);
 
-const spaceTexture = new THREE.TextureLoader().load('space.jpg');
-scene.background = spaceTexture;
-
 function animate() {
     requestAnimationFrame( animate );
     renderer.render( scene, camera);
@@ -52,25 +49,18 @@ function animate() {
 
 animate();
 
-function addstar() {
-    const geometry = new THREE.SphereGeometry(0.25, 24, 24);
-    const material = new THREE.MeshStandardMaterial( {color:0xffffff});
-    const star = new THREE.Mesh( geometry, material );
-    const [x, y, z] = Array(3).fill().map(() => THREE.MathUtils.randFloatSpread( 100 ));
-    star.position.set(x, y, z);
-    scene.add(star);
-}
+// create an AudioListener and add it to the camera
+const listener = new THREE.AudioListener();
+camera.add( listener );
 
-Array(200).fill().forEach(addstar);
+// create a global audio source
+const sound = new THREE.Audio( listener );
 
-const worldTexture = new THREE.TextureLoader().load( 'moon.jpg' );
-
-const world = new THREE.Mesh(
-  new THREE.SphereGeometry(3, 32, 32),
-  new THREE.MeshStandardMaterial({
-    map: worldTexture,
-  })
-);
-
-scene.add(world);
-
+// load a sound and set it as the Audio object's buffer
+const audioLoader = new THREE.AudioLoader();
+audioLoader.load( 'sounds/ambient.ogg', function( buffer ) {
+	sound.setBuffer( buffer );
+	sound.setLoop( true );
+	sound.setVolume( 0.5 );
+	sound.play();
+});

@@ -36,9 +36,6 @@ scene.add(lightHelper, gridHelper);
 
 const controls = new OrbitControls(camera, renderer.domElement);
 
-const spaceTexture = new THREE.TextureLoader().load('space.jpg');
-scene.background = spaceTexture;
-
 function animate() {
     requestAnimationFrame( animate );
     renderer.render( scene, camera);
@@ -58,19 +55,5 @@ function addstar() {
     const star = new THREE.Mesh( geometry, material );
     const [x, y, z] = Array(3).fill().map(() => THREE.MathUtils.randFloatSpread( 100 ));
     star.position.set(x, y, z);
-    scene.add(star);
+
 }
-
-Array(200).fill().forEach(addstar);
-
-const worldTexture = new THREE.TextureLoader().load( 'moon.jpg' );
-
-const world = new THREE.Mesh(
-  new THREE.SphereGeometry(3, 32, 32),
-  new THREE.MeshStandardMaterial({
-    map: worldTexture,
-  })
-);
-
-scene.add(world);
-
